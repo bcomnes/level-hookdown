@@ -51,32 +51,30 @@ HookDown.prototype._open = function (opts, cb) {
   }
 }
 
-HookDown.prototype.close = function () {
+HookDown.prototype._close = function () {
   console.log('close')
   this.leveldown.close.apply(this.leveldown, arguments)
 }
 
 HookDown.prototype.setDb = function () {
-  console.log('setDB')
   this.leveldown.setDb.apply(this.leveldown, arguments)
 }
 
-HookDown.prototype.put = function (key, value, opts, cb) {
+HookDown.prototype._put = function (key, value, opts, cb) {
   console.log('put')
   this.leveldown.put(key, value, opts, cb)
 }
 
-HookDown.prototype.get = function (key, opts, cb) {
+HookDown.prototype._get = function (key, opts, cb) {
   console.log('get')
   this.leveldown.get(key, opts, cb)
 }
 
-HookDown.prototype.del = function (key, opts, cb) {
+HookDown.prototype._del = function (key, opts, cb) {
   console.log('del')
   this.leveldown.del(key, opts, cb)
 }
 
-HookDown.prototype.batch =
 HookDown.prototype._batch = function (operations, opts, cb) {
   if (arguments.length === 0) return new abstract.AbstractChainedBatch(this)
   if (!Array.isArray(operations)) return this.leveldown.batch.apply(null, arguments)
@@ -84,7 +82,7 @@ HookDown.prototype._batch = function (operations, opts, cb) {
   this.leveldown.batch(operations, opts, cb)
 }
 
-HookDown.prototype.approximateSize = function (start, end, cb) {
+HookDown.prototype._approximateSize = function (start, end, cb) {
   this.leveldown.approximateSize.apply(this.leveldown, arguments)
 }
 
