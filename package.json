@@ -1,0 +1,35 @@
+{
+  "name": "level-hook",
+  "version": "1.0.0",
+  "description": "Simple leveldb hooks",
+  "main": "index.js",
+  "scripts": {
+    "test": "run-s test:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hypermodules/level-hook.git"
+  },
+  "keywords": [
+    "leveldb",
+    "levelup",
+    "hooks",
+    "pre",
+    "post",
+    "hook"
+  ],
+  "author": "Bret Comnes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hypermodules/level-hook/issues"
+  },
+  "homepage": "https://github.com/hypermodules/level-hook#readme",
+  "devDependencies": {
+    "@tap-format/spec": "^0.2.0",
+    "dependency-check": "^2.7.0",
+    "npm-run-all": "^4.0.0",
+    "snazzy": "^5.0.0",
+    "standard": "^8.6.0",
+    "tape": "^4.6.3"
+  }
+}
