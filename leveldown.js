@@ -1,5 +1,20 @@
 var util = require('util')
 var abstract = require('abstract-leveldown')
+var runTypes = {
+  series: require('run-series'),
+  parallel: require('run-parallel'),
+  limit: require('run-parallel-limit')
+}
+
+function makeRunner (type, limit) {
+  if (type === 'limit') {
+    return function plimit (work, callback) {
+      runTypes.limit(work, limit, callback)
+    }
+  } else {
+    return runTypes[type]
+  }
+}
 
 function HookDown (db, opts) {
   if (!(this instanceof HookDown)) return new HookDown(db, opts)
@@ -11,8 +26,9 @@ function HookDown (db, opts) {
   this.db = db
   this.leveldown = null
   this.prefix = null
-  this._beforeOpen = opts.open
   this.type = db.type || 'hookdown'
+  this._beforeOpen = opts.open
+  this._runner = makeRunner(opts.type || 'parallel', opts.limit || 5)
 
   abstract.AbstractLevelDOWN.call(this, 'no-location')
 }
@@ -40,26 +56,41 @@ HookDown.prototype._open = function (opts, cb) {
   }
 }
 
-HookDown.prototype._close = function () {
+HookDown.prototype._close = function (cb) {
   this.leveldown.close.apply(this.leveldown, arguments)
-}
-
-HookDown.prototype._put = function (key, value, opts, cb) {
-  this.leveldown.put(key, value, opts, cb)
 }
 
 HookDown.prototype._get = function (key, opts, cb) {
   this.leveldown.get(key, opts, cb)
 }
 
-HookDown.prototype._del = function (key, opts, cb) {
-  this.leveldown.del(key, opts, cb)
+HookDown.prototype._put = function (key, value, opts, cb) {
+  var self = this
+  var preWork = this.prehooks.map(function (hook) {
+    return hook.bind(hook, 'put', key, value, opts)
+  })
+  this._runner(preWork, function (err) {
+    if (err) return cb(err)
+    this.leveldown.put(key, value, opts, function (err) {
+      if (err) return cb(err)
+      var postWork = self.posthooks.map(function (hook) {
+        return hook.bind(hook, 'put', key, value, opts)
+      })
+      self._runner(postWork, function (err) {
+        cb(err)
+      })
+    })
+  })
 }
 
 HookDown.prototype._batch = function (operations, opts, cb) {
   if (arguments.length === 0) return new abstract.AbstractChainedBatch(this)
   if (!Array.isArray(operations)) return this.leveldown.batch.apply(null, arguments)
   this.leveldown.batch(operations, opts, cb)
+}
+
+HookDown.prototype._del = function (key, opts, cb) {
+  this.leveldown.del(key, opts, cb)
 }
 
 HookDown.prototype._iterator = function (opts) {
