@@ -67,30 +67,75 @@ HookDown.prototype._get = function (key, opts, cb) {
 HookDown.prototype._put = function (key, value, opts, cb) {
   var self = this
   var preWork = this.prehooks.map(function (hook) {
-    return hook.bind(hook, 'put', key, value, opts)
+    return hook.bind(hook, { type: 'put', key: key, value: value }, opts)
   })
-  this._runner(preWork, function (err) {
+
+  this._runner(preWork, preCb)
+
+  function preCb (err) {
     if (err) return cb(err)
-    this.leveldown.put(key, value, opts, function (err) {
-      if (err) return cb(err)
-      var postWork = self.posthooks.map(function (hook) {
-        return hook.bind(hook, 'put', key, value, opts)
-      })
-      self._runner(postWork, function (err) {
-        cb(err)
-      })
+    self.leveldown.put(key, value, opts, postCb)
+  }
+
+  function postCb (err) {
+    if (err) return cb(err)
+    var postWork = self.posthooks.map(function (hook) {
+      return hook.bind(hook, { type: 'put', key: key, value: value }, opts)
     })
-  })
+    self._runner(postWork, function (err) {
+      cb(err)
+    })
+  }
 }
 
 HookDown.prototype._batch = function (operations, opts, cb) {
   if (arguments.length === 0) return new abstract.AbstractChainedBatch(this)
-  if (!Array.isArray(operations)) return this.leveldown.batch.apply(null, arguments)
-  this.leveldown.batch(operations, opts, cb)
+
+  var self = this
+  var preWork = this.prehooks.map(function (hook) {
+    return hook.bind(hook, { type: 'batch', array: operations }, opts)
+  })
+
+  this._runner(preWork, preCb)
+
+  function preCb (err) {
+    if (err) return cb(err)
+    if (!Array.isArray(operations)) return this.leveldown.batch.apply(null, operations, opts, postCb)
+    self.leveldown.batch(operations, opts, postCb)
+  }
+
+  function postCb (err) {
+    if (err) return cb(err)
+    var postWork = self.posthooks.map(function (hook) {
+      return hook.bind(hook, { type: 'batch', array: operations }, opts)
+    })
+    self._runner(postWork, function (err) {
+      cb(err)
+    })
+  }
 }
 
 HookDown.prototype._del = function (key, opts, cb) {
-  this.leveldown.del(key, opts, cb)
+  var self = this
+  var preWork = this.prehooks.map(function (hook) {
+    return hook.bind(hook, { type: 'del', key: key }, opts)
+  })
+  this._runner(preWork, preCb)
+
+  function preCb (err) {
+    if (err) return cb(err)
+    self.leveldown.del(key, opts, postCb)
+  }
+
+  function postCb (err) {
+    if (err) return cb(err)
+    var postWork = self.posthooks.map(function (hook) {
+      return hook.bind(hook, { type: 'del', key: key }, opts)
+    })
+    self._runner(postWork, function (err) {
+      cb(err)
+    })
+  }
 }
 
 HookDown.prototype._iterator = function (opts) {
