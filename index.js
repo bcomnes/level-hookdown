@@ -1,13 +1,14 @@
 var hookdown = require('./leveldown')
 var levelup = require('levelup')
 
-module.exports = function (db, prefix, opts) {
-  if (typeof prefix === 'object' && !opts) return module.exports(db, null, prefix)
+module.exports = function (db, opts) {
   if (!opts) opts = {}
-
+  var hdown = hookdown(db, opts)
   opts.db = function () {
-    return hookdown(db, prefix, opts)
+    return hdown
   }
-
-  return levelup(opts)
+  var lup = levelup(opts)
+  lup.prehooks = hdown.prehooks
+  lup.posthooks = hdown.posthooks
+  return lup
 }
