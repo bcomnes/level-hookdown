@@ -97,3 +97,4 @@ The `options` object can contain the standard options object that gets passed to
 - [dominictarr/level-hooks](https://github.com/dominictarr/level-hooks)
 - [dominictarr/level-post](https://github.com/dominictarr/level-post)
 - [dominictarr/level-sublevel](https://github.com/dominictarr/level-sublevel)
+- [Level/abstract-leveldown](https://github.com/Level/abstract-leveldown)
