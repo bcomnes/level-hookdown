@@ -77,7 +77,7 @@ An array of hook functions that are run before `put`, `del`, and `batch` method 
 
 An array of functions that are run after sucessful `put`, `del`, and `batch` method calls on the wrapped `db` instance inside a `hookdb` instance.
 
-#### `hook(operation, options, callback)`
+#### `hookFn(operation, options, callback)`
 
 Hook functions receive an `operation` object that describes the level operation, an `options` object that gets passed to the level operation and a `callback` function.
 
