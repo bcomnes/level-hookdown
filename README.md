@@ -1,15 +1,16 @@
-# level-hook
+# level-hookdown
 Simple levelup hooks implemented with abstract-leveldown.
 
 ```
-npm install level-hook
+npm install level-hookdown
 ```
 
+![image of a hook](hook.png)
 
 ## Usage
 
 ```js
-var hook = require('./')
+var hook = require('level-hookdown')
 var MemDB = require('memdb')  // or 'level' or other levelup factory
 var mdb = MemDB()
 var db = hook(mdb)
