@@ -5,11 +5,15 @@ Simple levelup hooks implemented with abstract-leveldown.
 npm install level-hookdown
 ```
 
+[![npm][npm-image]][npm-url]
 [![Build Status](https://travis-ci.org/hypermodules/level-hookdown.svg?branch=master)](https://travis-ci.org/hypermodules/level-hookdown)
 [![dependencies Status](https://david-dm.org/hypermodules/level-hookdown/status.svg)](https://david-dm.org/hypermodules/level-hookdown)
 [![devDependencies Status](https://david-dm.org/hypermodules/level-hookdown/dev-status.svg)](https://david-dm.org/hypermodules/level-hookdown?type=dev)
 
 ![image of a hook](hook.png)
+
+[npm-image]: https://img.shields.io/npm/v/level-hookdown.svg
+[npm-url]: https://www.npmjs.com/package/level-hookdown
 
 ## Usage
 
