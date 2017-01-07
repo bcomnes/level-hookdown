@@ -3,17 +3,15 @@ var MemDB = require('memdb')
 var mdb = MemDB()
 var db = hook(mdb)
 
-function prehook (operation, opts, cb) {
+function prehook (operation, cb) {
   console.log('this should run before the db operation')
   console.log(operation)
-  console.log(opts)
   cb()
 }
 
-function posthook (operation, opts, cb) {
+function posthook (operation, cb) {
   console.log('this should run after the db operation')
   console.log(operation)
-  console.log(opts)
   cb()
 }
 

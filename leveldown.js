@@ -67,7 +67,7 @@ HookDown.prototype._get = function (key, opts, cb) {
 HookDown.prototype._put = function (key, value, opts, cb) {
   var self = this
   var preWork = this.prehooks.map(function (hook) {
-    return hook.bind(hook, { type: 'put', key: key, value: value }, opts)
+    return hook.bind(hook, { type: 'put', key: key, value: value, opts: opts })
   })
 
   this._runner(preWork, preCb)
@@ -80,7 +80,7 @@ HookDown.prototype._put = function (key, value, opts, cb) {
   function postCb (err) {
     if (err) return cb(err)
     var postWork = self.posthooks.map(function (hook) {
-      return hook.bind(hook, { type: 'put', key: key, value: value }, opts)
+      return hook.bind(hook, { type: 'put', key: key, value: value, opts: opts })
     })
     self._runner(postWork, function (err) {
       cb(err)
@@ -93,7 +93,7 @@ HookDown.prototype._batch = function (operations, opts, cb) {
 
   var self = this
   var preWork = this.prehooks.map(function (hook) {
-    return hook.bind(hook, { type: 'batch', array: operations }, opts)
+    return hook.bind(hook, { type: 'batch', array: operations, opts: opts })
   })
 
   this._runner(preWork, preCb)
@@ -107,7 +107,7 @@ HookDown.prototype._batch = function (operations, opts, cb) {
   function postCb (err) {
     if (err) return cb(err)
     var postWork = self.posthooks.map(function (hook) {
-      return hook.bind(hook, { type: 'batch', array: operations }, opts)
+      return hook.bind(hook, { type: 'batch', array: operations, opts: opts })
     })
     self._runner(postWork, function (err) {
       cb(err)

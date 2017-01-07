@@ -14,7 +14,7 @@ tape('test level-hookdown', function (t) {
     t.error(err, 'put on wrapped db is error free')
   })
 
-  function prehook (operation, opts, cb) {
+  function prehook (operation, cb) {
     mdb.put('pre', 'prepre', function (err) {
       t.error(err, 'put in prehook is error free')
       if (err) return cb(err)
@@ -25,7 +25,7 @@ tape('test level-hookdown', function (t) {
     })
   }
 
-  function posthook (operation, opts, cb) {
+  function posthook (operation, cb) {
     db.get('pre', function (err, value) {
       t.error(err)
       if (err) return cb(err)

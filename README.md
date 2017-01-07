@@ -19,17 +19,15 @@ var MemDB = require('memdb')  // or 'level' or other levelup factory
 var mdb = MemDB()
 var db = hook(mdb)
 
-function prehook (operation, opts, cb) {
+function prehook (operation, cb) {
   console.log('this should run before the db operation')
   console.log(operation)
-  console.log(opts)
   cb()
 }
 
-function posthook (operation, opts, cb) {
+function posthook (operation, cb) {
   console.log('this should run after the db operation')
   console.log(operation)
-  console.log(opts)
   cb()
 }
 
@@ -82,15 +80,15 @@ An array of hook functions that are run before `put`, `del`, and `batch` method 
 
 An array of functions that are run after sucessful `put`, `del`, and `batch` method calls on the wrapped `db` instance inside a `hookdb` instance.
 
-#### `hookFn(operation, options, callback)`
+#### `hookFn(operation, callback)`
 
-Hook functions receive an `operation` object that describes the level operation, an `options` object that gets passed to the level operation and a `callback` function.
+Hook functions receive an `operation` object that describes the level operation and a `callback` function.
 
 `hookdb.prehooks` and `hookdb.posthooks` are arrays that you can add, rearrange, and delete hook functions from using standard array methods like `hookdb.prehooks.push(fn)` and `hookdb.posthooks.pop(fn)`.
 
 ##### `operation`
 
-The `operation` argument can contain an object that looks like `{key: key, value: value, type:'put'}`, `{key: key, type:'del'}` or `{ type: 'batch', array: operations }`.
+The `operation` argument can contain an object that looks like `{key: key, value: value, type:'put', opts}`, `{key: key, type:'del', opts}` or `{ type: 'batch', opts, array: [operationArray] }`.  The `opts` object in the level operation object are the options that get passed through to the wrapped level.
 
 ##### `options`
 
