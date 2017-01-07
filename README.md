@@ -94,11 +94,6 @@ Hook functions receive an `operation` object that describes the level operation 
 
 The `operation` argument can contain an object that looks like `{key: key, value: value, type:'put', opts}`, `{key: key, type:'del', opts}` or `{ type: 'batch', opts, array: [operationArray] }`.  The `opts` object in the level operation object are the options that get passed through to the wrapped level.
 
-##### `options`
-
-The `options` object can contain the standard options object that gets passed to the wrapped `db` levelup instance contained in a `hookdb`.
-
-
 ## See Also
 
 - [dominictarr/level-hooks](https://github.com/dominictarr/level-hooks)
