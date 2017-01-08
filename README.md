@@ -92,7 +92,13 @@ Hook functions receive an `operation` object that describes the level operation 
 
 ##### `operation`
 
-The `operation` argument can contain an object that looks like `{key: key, value: value, type:'put', opts}`, `{key: key, type:'del', opts}` or `{ type: 'batch', opts, array: [operationArray] }`.  The `opts` object in the level operation object are the options that get passed through to the wrapped level.
+The `operation` argument can contain an object that looks like:
+
+- `{type:'put', key: 'key', value: 'value', opts}`
+- `{type: 'del', key: 'key', opts}`
+- `{type: 'batch', opts, array: [operationArray] }`
+
+The `opts` object in the level operation object are the options that get passed through to the wrapped level.
 
 ## See Also
 
