@@ -96,7 +96,7 @@ The `operation` argument can contain an object that looks like:
 
 - `{type:'put', key: 'key', value: 'value', opts}`
 - `{type: 'del', key: 'key', opts}`
-- `{type: 'batch', opts, array: [operationArray] }`
+- `{type: 'batch', array: [operationArray], opts }`
 
 The `opts` object in the level operation object are the options that get passed through to the wrapped level.
 
