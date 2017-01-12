@@ -64,7 +64,7 @@ HookDown.prototype._get = function (key, opts, cb) {
   this.leveldown.get(key, opts, cb)
 }
 
-HookDown.prototype._put = function (key, value, opts, cb) {
+HookDown.prototype.put = function (key, value, opts, cb) {
   var self = this
   var preWork = this.prehooks.map(function (hook) {
     return hook.bind(hook, { type: 'put', key: key, value: value, opts: opts })

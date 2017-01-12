@@ -1,16 +1,23 @@
 var tape = require('tape')
 var hook = require('../')
 var MemDB = require('memdb')
+var sub = require('subleveldown')
 
 tape('test level-hookdown', function (t) {
   var mdb = MemDB()
-  var db = hook(mdb)
+  var sublevel = sub(mdb, 'test')
+  var db = hook(sublevel, {valueEncoding: 'json'})
+
   t.plan(7)
 
   db.prehooks.push(prehook)
   db.posthooks.push(posthook)
 
-  db.put('main', 'mainmain', function (err) {
+  var setVal = {
+    beep: 'boop'
+  }
+
+  db.put('main', setVal, function (err) {
     t.error(err, 'put on wrapped db is error free')
   })
 
@@ -33,7 +40,7 @@ tape('test level-hookdown', function (t) {
       db.get('main', function (err, value) {
         t.error(err)
         if (err) return cb(err)
-        t.equal(value, 'mainmain', 'main put worked fine')
+        t.deepEqual(value, setVal, 'main put worked fine')
         cb()
       })
     })
