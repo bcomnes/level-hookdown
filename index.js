@@ -68,7 +68,7 @@ function del (key, opts, cb) {
   var self = this
   var protoDel = getPrototypeOf(self).del.bind(this)
   var preWork = this.prehooks.map(function (hook) {
-    return hook.bind(hook, { type: 'del', key: key }, opts)
+    return hook.bind(hook, { type: 'del', key: key, opts: opts })
   })
   this._hookRunner(preWork, preCb)
 
@@ -80,7 +80,7 @@ function del (key, opts, cb) {
   function postCb (err) {
     if (err) return cb(err)
     var postWork = self.posthooks.map(function (hook) {
-      return hook.bind(hook, { type: 'del', key: key }, opts)
+      return hook.bind(hook, { type: 'del', key: key, opts: opts })
     })
     self._hookRunner(postWork, function (err) {
       cb(err)
@@ -96,6 +96,7 @@ function batch (operations, opts, cb) {
 
   var self = this
   var protoBatch = getPrototypeOf(self).batch.bind(this)
+  var oper = operations.slice()
   var preWork = this.prehooks.map(function (hook) {
     return hook.bind(hook, { type: 'batch', array: operations, opts: opts })
   })
@@ -105,7 +106,7 @@ function batch (operations, opts, cb) {
   function preCb (err) {
     if (err) return cb(err)
     if (!Array.isArray(operations)) return this.leveldown.batch.apply(null, operations, opts, postCb)
-    getPrototypeOf(self).batch(operations, opts, postCb)
+    protoBatch(oper, opts, postCb)
   }
 
   function postCb (err) {

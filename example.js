@@ -3,8 +3,6 @@ var MemDB = require('memdb')
 var sub = require('sublevel')
 var db = hook(sub(MemDB(), 'test', {valueEncoding: 'json'}))
 
-console.log(db)
-
 function prehook (operation, cb) {
   console.log('this should run before the db operation')
   console.log(operation)
@@ -25,11 +23,15 @@ db.put('beep', 'boop', function (err) {
   db.del('beep', function (err) {
     if (err) throw err
     db.batch([
-      { type: 'put', key: 'father', value: 'gloop' },
-      { type: 'put', key: 'another', value: 'heep' }
+      { type: 'put', key: 'gleep', value: 'gloop' },
+      { type: 'put', key: 'bleep', value: 'bloop' }
     ], function (err) {
       if (err) throw err
-      console.log('done')
+      db.get('bleep', function (err, value) {
+        if (err) throw err
+        console.log(value)
+        console.log('done')
+      })
     })
   })
 })
