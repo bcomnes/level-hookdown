@@ -1,7 +1,9 @@
 var hook = require('./')
 var MemDB = require('memdb')
-var mdb = MemDB()
-var db = hook(mdb)
+var sub = require('sublevel')
+var db = hook(sub(MemDB(), 'test', {valueEncoding: 'json'}))
+
+console.log(db)
 
 function prehook (operation, cb) {
   console.log('this should run before the db operation')
