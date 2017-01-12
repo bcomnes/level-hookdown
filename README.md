@@ -1,6 +1,8 @@
 # level-hookdown
 Simple levelup hooks implemented with abstract-leveldown.
 
+**WARNING: Currently not quite working right ☹️**  Fix coming soon.
+
 ```
 npm install level-hookdown
 ```
