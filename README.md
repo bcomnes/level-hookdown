@@ -1,7 +1,5 @@
 # level-hookdown
-Simple levelup hooks implemented with abstract-leveldown.
-
-**WARNING: Currently not quite working right ☹️**  Fix coming soon.
+Simple levelup hooks implemented with instance method override of arbitrary levelups.
 
 ```
 npm install level-hookdown
@@ -60,7 +58,7 @@ db.put('beep', 'boop', function (err) {
 
 #### `hookdb = hook(db, [options])`
 
-Returns a levelup instance that executes a series of pre and post hook functions before `put`, `del`, and `batch` method calls.  Does not mutate `db` and returns a wrapping `levelup` instance similar to how [mafintosh/subleveldown](https://github.com/mafintosh/subleveldown) works.  Composes well with [mafintosh/subleveldown](https://github.com/mafintosh/subleveldown) and [dominictarr/level-sublevel](https://github.com/dominictarr/level-sublevel).
+Returns a levelup instance that executes a series of pre and post hook functions before `put`, `del`, and `batch` method calls.  Composes well with [mafintosh/subleveldown](https://github.com/mafintosh/subleveldown) and [dominictarr/level-sublevel](https://github.com/dominictarr/level-sublevel).
 
 The following `options` can be set when wrapping a `level` with `hook`:
 
@@ -68,13 +66,13 @@ The following `options` can be set when wrapping a `level` with `hook`:
 {
   type: 'parallel' | 'series' | 'limit',
   limit: 5,
-  open: noop() {}
+  protectHook: false
 }
 ```
 
 - The `type` determines if the hook functions are run in series, parallel or parallel-limit.  Default is `parallel`.
 - The limit option is passed to `run-parallel-limit` when `type` is set to `limit`.  The default is 5.
-- Open is a function to run before the underlying database is opened if not open.
+- `protectHook` performs a deep copy on the operation array in batches to preserve values if the levelup mutates them (like `subleveldown` does).
 
 ### Hooks
 
