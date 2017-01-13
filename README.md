@@ -1,5 +1,6 @@
 # level-hookdown
-Simple levelup hooks implemented with instance method override of arbitrary levelups.
+
+Simple levelup hooks implemented using instance method override of arbitrary levelups.
 
 ```
 npm install level-hookdown
