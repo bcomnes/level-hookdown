@@ -4,6 +4,7 @@ var runTypes = {
   limit: require('run-parallel-limit')
 }
 var getPrototypeOf = Object.getPrototypeOf
+var extend = require('xtend')
 
 module.exports = hook
 
@@ -15,6 +16,7 @@ function hook (db, opts) {
   db.prehooks = []
   db.posthooks = []
   db._hookRunner = makeRunner(opts.type || 'parallel', opts.limit || 5)
+  db._protectHook = opts.protectHook || false
   db.put = put
   db.batch = batch
   db.del = del
@@ -97,8 +99,9 @@ function batch (operations, opts, cb) {
   var self = this
   var protoBatch = getPrototypeOf(self).batch.bind(this)
   var oper = operations.slice()
+  var hookOperations = this._protectHook ? operations.map(copyArrayObj) : operations
   var preWork = this.prehooks.map(function (hook) {
-    return hook.bind(hook, { type: 'batch', array: operations, opts: opts })
+    return hook.bind(hook, { type: 'batch', array: hookOperations, opts: opts })
   })
 
   this._hookRunner(preWork, preCb)
@@ -112,7 +115,7 @@ function batch (operations, opts, cb) {
   function postCb (err) {
     if (err) return cb(err)
     var postWork = self.posthooks.map(function (hook) {
-      return hook.bind(hook, { type: 'batch', array: operations, opts: opts })
+      return hook.bind(hook, { type: 'batch', array: hookOperations, opts: opts })
     })
     self._hookRunner(postWork, function (err) {
       cb(err)
@@ -121,6 +124,10 @@ function batch (operations, opts, cb) {
 }
 
 module.exports.batch = batch
+
+function copyArrayObj (obj) {
+  return extend(obj)
+}
 
 // These are levelup utility functions
 
@@ -137,3 +144,4 @@ function getOptions (options) {
   }
   return options
 }
+
