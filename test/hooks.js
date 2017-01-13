@@ -4,11 +4,10 @@ var MemDB = require('memdb')
 var sub = require('subleveldown')
 
 tape('test level-hookdown', function (t) {
-  var mdb = MemDB()
-  var sublevel = sub(mdb, 'test')
-  var db = hook(sublevel, {valueEncoding: 'json'})
+  var sublevel = sub(MemDB(), 'test', {valueEncoding: 'json'})
+  var db = hook(sublevel)
 
-  t.plan(7)
+  t.plan(4)
 
   db.prehooks.push(prehook)
   db.posthooks.push(posthook)
@@ -22,107 +21,87 @@ tape('test level-hookdown', function (t) {
   })
 
   function prehook (operation, cb) {
-    mdb.put('pre', 'prepre', function (err) {
-      t.error(err, 'put in prehook is error free')
-      if (err) return cb(err)
-      db.get('main', function (err, value) {
-        t.equal(err.type, 'NotFoundError', 'main operation hasnt been performed in prehook')
-        cb(err.type !== 'NotFoundError' ? err : null)
-      })
+    db.get('main', function (err, value) {
+      t.equal(err.type, 'NotFoundError', 'main operation hasnt been performed in prehook')
+      cb(err.type !== 'NotFoundError' ? err : null)
     })
   }
 
   function posthook (operation, cb) {
-    db.get('pre', function (err, value) {
+    db.get('main', function (err, value) {
       t.error(err)
       if (err) return cb(err)
-      t.equal(value, 'prepre', 'prehook put worked fine')
-      db.get('main', function (err, value) {
-        t.error(err)
-        if (err) return cb(err)
-        t.deepEqual(value, setVal, 'main put worked fine')
-        cb()
-      })
+      t.deepEqual(value, setVal, 'main put worked fine')
+      cb()
     })
   }
 })
 
 tape('test level-hookdown series', function (t) {
-  var mdb = MemDB()
-  var db = hook(mdb, {
-    type: 'series'
-  })
-  t.plan(7)
+  var level = MemDB({valueEncoding: 'json'})
+  var db = hook(level, { type: 'series' })
+
+  t.plan(4)
 
   db.prehooks.push(prehook)
   db.posthooks.push(posthook)
 
-  db.put('main', 'mainmain', function (err) {
+  var setVal = {
+    beep: 'boop'
+  }
+
+  db.put('main', setVal, function (err) {
     t.error(err, 'put on wrapped db is error free')
   })
 
   function prehook (operation, cb) {
-    mdb.put('pre', 'prepre', function (err) {
-      t.error(err, 'put in prehook is error free')
-      if (err) return cb(err)
-      db.get('main', function (err, value) {
-        t.equal(err.type, 'NotFoundError', 'main operation hasnt been performed in prehook')
-        cb(err.type !== 'NotFoundError' ? err : null)
-      })
+    db.get('main', function (err, value) {
+      t.equal(err.type, 'NotFoundError', 'main operation hasnt been performed in prehook')
+      cb(err.type !== 'NotFoundError' ? err : null)
     })
   }
 
   function posthook (operation, cb) {
-    db.get('pre', function (err, value) {
+    db.get('main', function (err, value) {
       t.error(err)
       if (err) return cb(err)
-      t.equal(value, 'prepre', 'prehook put worked fine')
-      db.get('main', function (err, value) {
-        t.error(err)
-        if (err) return cb(err)
-        t.equal(value, 'mainmain', 'main put worked fine')
-        cb()
-      })
+      t.deepEqual(value, setVal, 'main put worked fine')
+      cb()
     })
   }
 })
 
 tape('test level-hookdown limit', function (t) {
-  var mdb = MemDB()
-  var db = hook(mdb, {
-    type: 'limit'
-  })
-  t.plan(7)
+  var sublevel = sub(MemDB(), 'test', {valueEncoding: 'json'})
+  var db = hook(sublevel, {type: 'limit'})
+
+  t.plan(4)
 
   db.prehooks.push(prehook)
   db.posthooks.push(posthook)
 
-  db.put('main', 'mainmain', function (err) {
+  var setVal = {
+    beep: 'boop'
+  }
+
+  db.put('main', setVal, function (err) {
     t.error(err, 'put on wrapped db is error free')
   })
 
   function prehook (operation, cb) {
-    mdb.put('pre', 'prepre', function (err) {
-      t.error(err, 'put in prehook is error free')
-      if (err) return cb(err)
-      db.get('main', function (err, value) {
-        t.equal(err.type, 'NotFoundError', 'main operation hasnt been performed in prehook')
-        cb(err.type !== 'NotFoundError' ? err : null)
-      })
+    db.get('main', function (err, value) {
+      t.equal(err.type, 'NotFoundError', 'main operation hasnt been performed in prehook')
+      cb(err.type !== 'NotFoundError' ? err : null)
     })
   }
 
   function posthook (operation, cb) {
-    db.get('pre', function (err, value) {
+    db.get('main', function (err, value) {
       t.error(err)
       if (err) return cb(err)
-      t.equal(value, 'prepre', 'prehook put worked fine')
-      db.get('main', function (err, value) {
-        t.error(err)
-        if (err) return cb(err)
-        t.equal(value, 'mainmain', 'main put worked fine')
-        cb()
-      })
+      t.deepEqual(value, setVal, 'main put worked fine')
+      cb()
     })
   }
 })
+
