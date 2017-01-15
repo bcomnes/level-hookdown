@@ -11,7 +11,7 @@ npm install level-hookdown
 [![dependencies Status](https://david-dm.org/hypermodules/level-hookdown/status.svg)](https://david-dm.org/hypermodules/level-hookdown)
 [![devDependencies Status](https://david-dm.org/hypermodules/level-hookdown/dev-status.svg)](https://david-dm.org/hypermodules/level-hookdown?type=dev)
 
-![image of a hook](hook.png)
+<img height="100" src="hook.png">
 
 [npm-image]: https://img.shields.io/npm/v/level-hookdown.svg
 [npm-url]: https://www.npmjs.com/package/level-hookdown
@@ -59,7 +59,7 @@ db.put('beep', 'boop', function (err) {
 
 #### `hookdb = hook(db, [options])`
 
-Returns a levelup instance that executes a series of pre and post hook functions before `put`, `del`, and `batch` method calls.  Composes well with [mafintosh/subleveldown](https://github.com/mafintosh/subleveldown) and [dominictarr/level-sublevel](https://github.com/dominictarr/level-sublevel).
+Returns a levelup instance that executes a series of pre and post hook functions before `put`, `del`, and `batch` method calls.  Composes well with [mafintosh/subleveldown](https://github.com/mafintosh/subleveldown). Conflicts with [dominictarr/level-sublevel](https://github.com/dominictarr/level-sublevel).
 
 The following `options` can be set when wrapping a `level` with `hook`:
 
@@ -103,7 +103,11 @@ The `opts` object in the level operation object are the options that get passed 
 
 ## See Also
 
+This module is basically an alternative implementation of:
+
 - [dominictarr/level-hooks](https://github.com/dominictarr/level-hooks)
+
+but aimed at a subleveldown workflow. These were also influential:
+
 - [dominictarr/level-post](https://github.com/dominictarr/level-post)
 - [dominictarr/level-sublevel](https://github.com/dominictarr/level-sublevel)
-- [Level/abstract-leveldown](https://github.com/Level/abstract-leveldown)
