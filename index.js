@@ -144,4 +144,3 @@ function getOptions (options) {
   }
   return options
 }
-
