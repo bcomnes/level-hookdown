@@ -33,7 +33,7 @@
     "memdb": "^1.3.1",
     "memdown": "^1.2.4",
     "npm-run-all": "^4.0.0",
-    "snazzy": "^6.0.0",
+    "snazzy": "^7.0.0",
     "standard": "^10.0.0",
     "sublevel": "^2.4.0",
     "subleveldown": "^2.1.0",
