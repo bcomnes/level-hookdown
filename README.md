@@ -1,5 +1,7 @@
 # level-hookdown
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hypermodules/level-hookdown.svg)](https://greenkeeper.io/)
+
 Simple levelup hooks implemented using instance method override of arbitrary levelups.
 
 ```
