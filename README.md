@@ -1,7 +1,5 @@
 # level-hookdown
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/hypermodules/level-hookdown.svg)](https://greenkeeper.io/)
-
 Simple levelup hooks implemented using instance method override of arbitrary levelups.
 
 ```
@@ -12,6 +10,7 @@ npm install level-hookdown
 [![Build Status](https://travis-ci.org/hypermodules/level-hookdown.svg?branch=master)](https://travis-ci.org/hypermodules/level-hookdown)
 [![dependencies Status](https://david-dm.org/hypermodules/level-hookdown/status.svg)](https://david-dm.org/hypermodules/level-hookdown)
 [![devDependencies Status](https://david-dm.org/hypermodules/level-hookdown/dev-status.svg)](https://david-dm.org/hypermodules/level-hookdown?type=dev)
+[![Greenkeeper badge](https://badges.greenkeeper.io/hypermodules/level-hookdown.svg)](https://greenkeeper.io/)
 
 <img height="100" src="hook.png">
 
