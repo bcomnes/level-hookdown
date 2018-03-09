@@ -6,14 +6,15 @@ Simple levelup hooks implemented using instance method override of arbitrary lev
 npm install level-hookdown
 ```
 
+[![level badge][level-badge]](https://github.com/level/awesome)
 [![npm][npm-image]][npm-url]
 [![Build Status](https://travis-ci.org/hypermodules/level-hookdown.svg?branch=master)](https://travis-ci.org/hypermodules/level-hookdown)
 [![dependencies Status](https://david-dm.org/hypermodules/level-hookdown/status.svg)](https://david-dm.org/hypermodules/level-hookdown)
 [![devDependencies Status](https://david-dm.org/hypermodules/level-hookdown/dev-status.svg)](https://david-dm.org/hypermodules/level-hookdown?type=dev)
-[![Greenkeeper badge](https://badges.greenkeeper.io/hypermodules/level-hookdown.svg)](https://greenkeeper.io/)
 
 <img height="100" src="hook.png">
 
+[level-badge]: http://leveldb.org/img/badge.svg
 [npm-image]: https://img.shields.io/npm/v/level-hookdown.svg
 [npm-url]: https://www.npmjs.com/package/level-hookdown
 
