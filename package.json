@@ -36,7 +36,7 @@
     "snazzy": "^7.0.0",
     "standard": "^11.0.0",
     "sublevel": "^2.4.0",
-    "subleveldown": "^2.1.0",
+    "subleveldown": "^3.0.0",
     "tape": "^4.6.3"
   },
   "dependencies": {
