@@ -4,7 +4,7 @@ var MemDB = require('memdb')
 var sub = require('subleveldown')
 
 tape('test level-hookdown', function (t) {
-  var sublevel = sub(MemDB(), 'test', {valueEncoding: 'json'})
+  var sublevel = sub(MemDB(), 'test', { valueEncoding: 'json' })
   var db = hook(sublevel)
 
   t.plan(4)
@@ -38,7 +38,7 @@ tape('test level-hookdown', function (t) {
 })
 
 tape('test level-hookdown series', function (t) {
-  var level = MemDB({valueEncoding: 'json'})
+  var level = MemDB({ valueEncoding: 'json' })
   var db = hook(level, { type: 'series' })
 
   t.plan(4)
@@ -72,8 +72,8 @@ tape('test level-hookdown series', function (t) {
 })
 
 tape('test level-hookdown limit', function (t) {
-  var sublevel = sub(MemDB(), 'test', {valueEncoding: 'json'})
-  var db = hook(sublevel, {type: 'limit', limit: 2})
+  var sublevel = sub(MemDB(), 'test', { valueEncoding: 'json' })
+  var db = hook(sublevel, { type: 'limit', limit: 2 })
 
   t.plan(4)
 

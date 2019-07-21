@@ -10,9 +10,10 @@ module.exports = hook
 
 function hook (db, opts) {
   if (!opts) opts = {}
-  if (db.hasOwnProperty('put')) throw (new Error('Can\'t hook: put method already set on instance'))
-  if (db.hasOwnProperty('del')) throw (new Error('Can\'t hook: del method already set on instance'))
-  if (db.hasOwnProperty('batch')) throw (new Error('Can\'t hook: batch method already set on instance'))
+
+  if (Object.prototype.hasOwnProperty.call(db, 'put')) throw (new Error('Can\'t hook: put method already set on instance'))
+  if (Object.prototype.hasOwnProperty.call(db, 'del')) throw (new Error('Can\'t hook: del method already set on instance'))
+  if (Object.prototype.hasOwnProperty.call(db, 'batch')) throw (new Error('Can\'t hook: batch method already set on instance'))
   db.prehooks = []
   db.posthooks = []
   db._hookRunner = makeRunner(opts.type || 'parallel', opts.limit || 5)
