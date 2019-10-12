@@ -36,6 +36,9 @@ function makeRunner (type, limit) {
 
 function put (key, value, opts, cb) {
   cb = getCallback(opts, cb)
+  if (!cb) {
+    cb = createPromiseCb()
+  }
   opts = getOptions(opts)
 
   var self = this
@@ -66,6 +69,9 @@ module.exports.put = put
 
 function del (key, opts, cb) {
   cb = getCallback(opts, cb)
+  if (!cb) {
+    cb = createPromiseCb()
+  }
   opts = getOptions(opts)
 
   var self = this
@@ -95,6 +101,9 @@ module.exports.del = del
 
 function batch (operations, opts, cb) {
   cb = getCallback(opts, cb)
+  if (!cb) {
+    cb = createPromiseCb()
+  }
   opts = getOptions(opts)
 
   var self = this
@@ -144,4 +153,13 @@ function getOptions (options) {
     options = {}
   }
   return options
+}
+
+function createPromiseCb () {
+  return function (err, ...rest) {
+    return new Promise(function (resolve, reject) {
+      if (err) return reject(err)
+      return resolve(...rest)
+    })
+  }
 }
