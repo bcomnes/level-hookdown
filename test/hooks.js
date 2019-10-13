@@ -1,10 +1,10 @@
 var tape = require('tape')
 var hook = require('../')
-var MemDB = require('memdb')
+var mem = require('level-mem')
 var sub = require('subleveldown')
 
 tape('test level-hookdown', function (t) {
-  var sublevel = sub(MemDB(), 'test', { valueEncoding: 'json' })
+  var sublevel = sub(mem(), 'test', { valueEncoding: 'json' })
   var db = hook(sublevel)
 
   t.plan(4)
@@ -38,7 +38,7 @@ tape('test level-hookdown', function (t) {
 })
 
 tape('[promises] test level-hookdown', async function (t) {
-  var sublevel = sub(MemDB(), 'test', { valueEncoding: 'json' })
+  var sublevel = sub(mem(), 'test', { valueEncoding: 'json' })
   var db = hook(sublevel)
 
   t.plan(4)
@@ -72,7 +72,7 @@ tape('[promises] test level-hookdown', async function (t) {
 })
 
 tape('test level-hookdown series', function (t) {
-  var level = MemDB({ valueEncoding: 'json' })
+  var level = mem({ valueEncoding: 'json' })
   var db = hook(level, { type: 'series' })
 
   t.plan(4)
@@ -106,7 +106,7 @@ tape('test level-hookdown series', function (t) {
 })
 
 tape('[promises] test level-hookdown series', function (t) {
-  var level = MemDB({ valueEncoding: 'json' })
+  var level = mem({ valueEncoding: 'json' })
   var db = hook(level, { type: 'series' })
 
   t.plan(4)
@@ -140,7 +140,7 @@ tape('[promises] test level-hookdown series', function (t) {
 })
 
 tape('test level-hookdown limit', function (t) {
-  var sublevel = sub(MemDB(), 'test', { valueEncoding: 'json' })
+  var sublevel = sub(mem(), 'test', { valueEncoding: 'json' })
   var db = hook(sublevel, { type: 'limit', limit: 2 })
 
   t.plan(4)
@@ -174,7 +174,7 @@ tape('test level-hookdown limit', function (t) {
 })
 
 tape('[promises] test level-hookdown limit', function (t) {
-  var sublevel = sub(MemDB(), 'test', { valueEncoding: 'json' })
+  var sublevel = sub(mem(), 'test', { valueEncoding: 'json' })
   var db = hook(sublevel, { type: 'limit', limit: 2 })
 
   t.plan(4)

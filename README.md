@@ -22,8 +22,8 @@ npm install level-hookdown
 
 ```js
 var hook = require('level-hookdown')
-var MemDB = require('memdb')  // or 'level' or other levelup factory
-var mdb = MemDB()
+var mem = require('level-mem')  // or 'level' or other levelup factory
+var mdb = mem()
 var db = hook(mdb)
 
 function prehook (operation, cb) {
