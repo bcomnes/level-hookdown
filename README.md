@@ -105,6 +105,9 @@ The `opts` object in the level operation object are the options that get passed 
 
 ## See Also
 
+- [hypermodules/level-auto-index](https://github.com/hypermodules/level-auto-index) - Automatic secondary indexing for leveldb and subleveldown leveraging `level-hookdown`.
+- [hypermodules/level-idx](https://github.com/hypermodules/level-idx) - Another high-level API for creating secondary leveldb indexes using `level-auto-index` and `level-hookdown`.
+
 This module is basically an alternative implementation of:
 
 - [dominictarr/level-hooks](https://github.com/dominictarr/level-hooks)
