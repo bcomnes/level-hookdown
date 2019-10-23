@@ -49,6 +49,8 @@ function put (key, value, opts, cb) {
 
   this._hookRunner(preWork, preCb)
 
+  return cb.promise
+
   function preCb (err) {
     if (err) return cb(err)
     protoPut(key, value, opts, postCb)
@@ -80,6 +82,8 @@ function del (key, opts, cb) {
     return hook.bind(hook, { type: 'del', key: key, opts: opts })
   })
   this._hookRunner(preWork, preCb)
+
+  return cb.promise
 
   function preCb (err) {
     if (err) return cb(err)
@@ -115,6 +119,8 @@ function batch (operations, opts, cb) {
   })
 
   this._hookRunner(preWork, preCb)
+
+  return cb.promise
 
   function preCb (err) {
     if (err) return cb(err)
@@ -156,10 +162,15 @@ function getOptions (options) {
 }
 
 function createPromiseCb () {
-  return function (err, ...rest) {
-    return new Promise(function (resolve, reject) {
-      if (err) return reject(err)
-      return resolve(...rest)
-    })
-  }
+  let callback
+
+  const promise = new Promise((resolve, reject) => {
+    callback = (err, ...rest) => {
+      if (err) reject(err)
+      else resolve(...rest)
+    }
+  })
+
+  callback.promise = promise
+  return callback
 }
