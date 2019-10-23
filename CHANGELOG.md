@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1.2
+
+* Fix a few issues with returned promises. (https://github.com/hypermodules/level-hookdown/pull/31)
+
 ## 3.1.1
 
 * Update outdated dependencies
